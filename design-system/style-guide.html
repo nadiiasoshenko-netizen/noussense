@@ -1,0 +1,476 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>The Content Dept. — Design System</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,600;1,400;1,500&family=Inter:wght@400;500;600&family=Caveat:wght@500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --ink:#1C130E;
+    --black:#C9B48C;
+    --cream:#F1EAE0;
+    --paper:#FBF8F3;
+    --wine:#6B2430;
+    --wine-deep:#4E1A22;
+    --dust-blue:#ACB9C6;
+    --sand:#C7B8A3;
+    --line:#D9D0C2;
+
+    --serif:'Playfair Display', serif;
+    --sans:'Inter', sans-serif;
+    --script:'Caveat', cursive;
+  }
+
+  *{box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  body{
+    margin:0;
+    background:var(--paper);
+    color:var(--ink);
+    font-family:var(--sans);
+    font-size:15px;
+    line-height:1.6;
+  }
+
+  img,svg{max-width:100%;display:block;}
+
+  .wrap{max-width:1180px;margin:0 auto;padding:0 32px;}
+
+  /* ---------- top nav ---------- */
+  .topnav{
+    position:sticky;top:0;z-index:20;
+    background:rgba(251,248,243,0.92);
+    backdrop-filter:blur(6px);
+    border-bottom:1px solid var(--line);
+  }
+  .topnav .wrap{
+    display:flex;align-items:center;justify-content:space-between;
+    height:64px;
+  }
+  .topnav .mark{font-family:var(--serif);font-size:19px;letter-spacing:0.01em;}
+  .topnav .mark em{font-style:italic;color:var(--wine);}
+  .topnav nav{display:flex;gap:28px;}
+  .topnav a{
+    color:var(--ink);text-decoration:none;font-size:12px;
+    letter-spacing:0.12em;text-transform:uppercase;font-weight:500;
+    opacity:0.7;
+  }
+  .topnav a:hover{opacity:1;}
+
+  /* ---------- hero ---------- */
+  .hero{
+    background:var(--ink);
+    color:var(--cream);
+    padding:120px 0 100px;
+  }
+  .hero .eyebrow{
+    font-size:12px;letter-spacing:0.16em;text-transform:uppercase;
+    color:var(--dust-blue);margin:0 0 22px;font-weight:500;
+  }
+  .hero h1{
+    font-family:var(--serif);
+    font-weight:500;
+    font-size:clamp(40px,6vw,72px);
+    line-height:0.98;
+    margin:0 0 28px;
+    max-width:15ch;
+  }
+  .hero h1 em{font-style:italic;color:var(--sand);}
+  .hero p{
+    max-width:46ch;
+    font-size:17px;
+    line-height:1.6;
+    color:#D8CFC2;
+    margin:0;
+  }
+
+  section{padding:88px 0;}
+  section + section{border-top:1px solid var(--line);}
+  .section-head{
+    display:flex;justify-content:space-between;align-items:flex-end;
+    gap:24px;margin-bottom:44px;flex-wrap:wrap;
+  }
+  .section-head .num{
+    font-family:var(--sans);font-size:12px;letter-spacing:0.14em;
+    color:var(--wine);text-transform:uppercase;font-weight:600;margin:0 0 8px;
+  }
+  .section-head h2{
+    font-family:var(--serif);font-weight:500;font-size:34px;margin:0;
+  }
+  .section-head p{margin:0;max-width:34ch;color:#5b4c40;font-size:14px;}
+
+  /* ---------- color ---------- */
+  .swatches{
+    display:grid;grid-template-columns:repeat(3,1fr);gap:1px;
+    background:var(--line);border:1px solid var(--line);
+  }
+  .swatch{background:var(--paper);padding:28px;min-height:150px;
+    display:flex;flex-direction:column;justify-content:space-between;}
+  .swatch .chip{width:100%;height:64px;margin-bottom:20px;border:1px solid rgba(0,0,0,0.06);}
+  .swatch .name{font-family:var(--serif);font-size:18px;margin:0 0 4px;}
+  .swatch .hex{font-size:12px;color:#7a6c5d;font-family:var(--sans);letter-spacing:0.02em;}
+  .swatch .use{font-size:12px;color:#8a7c6d;margin-top:8px;}
+
+  /* ---------- typography ---------- */
+  .type-row{
+    display:flex;justify-content:space-between;align-items:baseline;
+    padding:28px 0;border-bottom:1px solid var(--line);gap:24px;flex-wrap:wrap;
+  }
+  .type-row:last-child{border-bottom:none;}
+  .type-row .label{
+    font-size:11px;letter-spacing:0.12em;text-transform:uppercase;
+    color:#8a7c6d;width:150px;flex-shrink:0;
+  }
+  .type-row .sample{flex:1;min-width:260px;}
+  .t-display-xl{font-family:var(--serif);font-size:clamp(38px,5vw,58px);line-height:0.95;font-weight:500;}
+  .t-display-lg{font-family:var(--serif);font-size:38px;line-height:1;font-weight:500;}
+  .t-display-md{font-family:var(--serif);font-size:26px;line-height:1.05;font-weight:500;}
+  .t-script{font-family:var(--serif);font-style:italic;font-size:36px;color:var(--wine);}
+  .t-label{font-size:12px;letter-spacing:0.14em;text-transform:uppercase;font-weight:600;}
+  .t-body-lg{font-size:17px;line-height:1.6;max-width:52ch;}
+  .t-body{font-size:15px;line-height:1.6;max-width:52ch;color:#3b2f26;}
+  .t-caption{font-size:12px;color:#8a7c6d;}
+  .t-hand{font-family:var(--script);font-size:26px;color:var(--ink);}
+
+  /* ---------- moodboard grid recreation ---------- */
+  .grid3{
+    display:grid;grid-template-columns:repeat(3,1fr);gap:2px;
+    background:var(--ink);
+  }
+  .cell{
+    position:relative;aspect-ratio:3/4;overflow:hidden;
+    display:flex;flex-direction:column;justify-content:flex-end;padding:20px;
+  }
+  .cell .eyebrow{
+    position:absolute;top:18px;left:0;right:0;text-align:center;
+    font-size:10px;letter-spacing:0.16em;text-transform:uppercase;opacity:0.75;
+  }
+  .cell h3{font-family:var(--serif);font-weight:500;margin:0;line-height:1.02;}
+  .cell p{font-size:11px;line-height:1.5;margin:10px 0 0;max-width:22ch;}
+
+  .bg-ink{background:var(--ink);color:var(--cream);}
+  .bg-black{background:var(--black);color:var(--ink);}
+  .bg-wine{background:var(--wine);color:var(--cream);}
+  .bg-cream{background:var(--cream);color:var(--ink);}
+  .bg-sand{background:var(--sand);color:var(--ink);}
+  .bg-blue{background:var(--dust-blue);color:var(--ink);}
+  .photo-block{
+    background:
+      linear-gradient(160deg, rgba(255,255,255,0.06), transparent 60%),
+      repeating-linear-gradient(135deg, rgba(0,0,0,0.05) 0 2px, transparent 2px 10px);
+  }
+  .photo-tag{
+    position:absolute;top:16px;left:16px;background:rgba(251,248,243,0.9);
+    color:var(--ink);font-size:9px;letter-spacing:0.1em;text-transform:uppercase;
+    padding:4px 8px;
+  }
+
+  /* ---------- components ---------- */
+  .comp-grid{
+    display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));
+    gap:28px;
+  }
+  .comp-card{
+    background:var(--paper);border:1px solid var(--line);
+    padding:36px 28px;display:flex;flex-direction:column;align-items:center;
+    gap:22px;min-height:280px;justify-content:center;
+  }
+  .comp-card .cap{
+    font-size:11px;letter-spacing:0.12em;text-transform:uppercase;
+    color:#8a7c6d;
+  }
+
+  /* pinned quote card */
+  .pin-demo{width:200px;height:150px;background:var(--sand);position:relative;}
+  .pin-note{
+    position:absolute;bottom:-18px;right:-14px;background:var(--dust-blue);
+    width:130px;padding:16px 14px;font-family:var(--serif);font-style:italic;
+    font-size:13px;line-height:1.35;color:var(--ink);
+    box-shadow:0 10px 24px rgba(0,0,0,0.18);
+  }
+  .clip{
+    position:absolute;top:-10px;left:50%;transform:translateX(-50%);
+    width:22px;height:14px;background:var(--ink);border-radius:1px;
+  }
+
+  /* sticky note */
+  .sticky-demo{
+    width:170px;padding:20px;background:var(--paper);
+    border:1px solid var(--line);
+    box-shadow:0 12px 26px rgba(0,0,0,0.12);
+    transform:rotate(-2deg);
+  }
+  .sticky-demo .rule{width:100%;height:1px;background:var(--line);margin:10px 0;}
+  .sticky-demo .h{font-size:10px;letter-spacing:0.1em;text-transform:uppercase;color:#8a7c6d;}
+
+  /* polaroid stack */
+  .polaroid-demo{position:relative;width:170px;height:150px;}
+  .polaroid{
+    position:absolute;width:100px;background:#fff;padding:8px 8px 20px;
+    box-shadow:0 14px 24px rgba(0,0,0,0.16);
+  }
+  .polaroid .ph{width:100%;aspect-ratio:1/1;background:var(--sand);}
+  .polaroid.p1{top:0;left:0;transform:rotate(-7deg);z-index:1;}
+  .polaroid.p2{top:6px;left:56px;transform:rotate(5deg);z-index:2;}
+
+  /* tags */
+  .tag-row{display:flex;gap:14px;flex-wrap:wrap;}
+  .tag{
+    font-size:11px;letter-spacing:0.12em;text-transform:uppercase;
+    padding:8px 14px;border:1px solid var(--ink);color:var(--ink);font-weight:500;
+  }
+  .tag.solid{background:var(--wine);border-color:var(--wine);color:var(--cream);}
+
+  /* wax seal */
+  .seal{
+    width:78px;height:78px;border-radius:50%;background:var(--wine);
+    display:flex;align-items:center;justify-content:center;
+    box-shadow:inset 0 3px 8px rgba(0,0,0,0.35), 0 6px 14px rgba(0,0,0,0.2);
+  }
+  .seal span{font-family:var(--serif);font-style:italic;color:var(--cream);font-size:22px;}
+
+  /* buttons */
+  .btn-row{display:flex;gap:16px;flex-wrap:wrap;align-items:center;}
+  .btn{
+    font-family:var(--sans);font-size:12px;letter-spacing:0.12em;text-transform:uppercase;
+    font-weight:600;padding:14px 26px;border:1px solid var(--ink);
+    background:transparent;color:var(--ink);cursor:pointer;
+  }
+  .btn.primary{background:var(--ink);color:var(--cream);}
+  .btn.ghost{border-color:transparent;padding-left:0;padding-right:0;}
+
+  /* spacing scale */
+  .space-row{display:flex;align-items:center;gap:18px;margin-bottom:14px;}
+  .space-row .bar{background:var(--wine);height:14px;}
+  .space-row .lbl{font-size:12px;color:#5b4c40;width:90px;}
+
+  footer{
+    background:var(--ink);color:#a99a8a;padding:48px 0;font-size:12px;
+  }
+  footer .wrap{display:flex;justify-content:space-between;flex-wrap:wrap;gap:12px;}
+
+  @media (max-width:720px){
+    .grid3{grid-template-columns:repeat(2,1fr);}
+    .swatches{grid-template-columns:1fr;}
+    .type-row{flex-direction:column;align-items:flex-start;}
+  }
+</style>
+</head>
+<body>
+
+<div class="topnav">
+  <div class="wrap">
+    <div class="mark">The Content <em>Dept.</em></div>
+    <nav>
+      <a href="#color">Color</a>
+      <a href="#type">Type</a>
+      <a href="#grid">Grid</a>
+      <a href="#components">Components</a>
+      <a href="#spacing">Spacing</a>
+    </nav>
+  </div>
+</div>
+
+<header class="hero">
+  <div class="wrap">
+    <p class="eyebrow">Design System — v1.0</p>
+    <h1>Structured, scaleable, <em>editorial.</em></h1>
+    <p>A design language built from the studio's own moodboards: espresso-dark
+    backdrops, a single wine-red accent, and serif headlines that carry as much
+    weight as the photography around them.</p>
+  </div>
+</header>
+
+<section id="color">
+  <div class="wrap">
+    <div class="section-head">
+      <div>
+        <p class="num">01 — Foundations</p>
+        <h2>Color</h2>
+      </div>
+      <p>Ink and cream carry every layout. Wine and dusty blue are accents —
+      use one per composition, rarely both at equal weight.</p>
+    </div>
+    <div class="swatches">
+      <div class="swatch"><div class="chip" style="background:#1C130E"></div><p class="name">Ink</p><p class="hex">#1C130E</p><p class="use">Primary dark background, body text on cream</p></div>
+      <div class="swatch"><div class="chip" style="background:#C9B48C"></div><p class="name">Beige</p><p class="hex">#C9B48C</p><p class="use">The one lighter card in the grid — breaks the ink/black rhythm on purpose</p></div>
+      <div class="swatch"><div class="chip" style="background:#F1EAE0;border:1px solid #e2d8c8"></div><p class="name">Cream</p><p class="hex">#F1EAE0</p><p class="use">Primary light background, reversed text</p></div>
+      <div class="swatch"><div class="chip" style="background:#FBF8F3;border:1px solid #e2d8c8"></div><p class="name">Paper</p><p class="hex">#FBF8F3</p><p class="use">Card surfaces, lightest neutral</p></div>
+      <div class="swatch"><div class="chip" style="background:#6B2430"></div><p class="name">Wine</p><p class="hex">#6B2430</p><p class="use">Primary accent — seals, tags, one card</p></div>
+      <div class="swatch"><div class="chip" style="background:#4E1A22"></div><p class="name">Wine Deep</p><p class="hex">#4E1A22</p><p class="use">Hover / pressed, deep card fills</p></div>
+      <div class="swatch"><div class="chip" style="background:#ACB9C6"></div><p class="name">Dust Blue</p><p class="hex">#ACB9C6</p><p class="use">Secondary accent — paper, notebook moments</p></div>
+      <div class="swatch"><div class="chip" style="background:#C7B8A3"></div><p class="name">Sand</p><p class="hex">#C7B8A3</p><p class="use">Photography backdrops, muted fills</p></div>
+      <div class="swatch"><div class="chip" style="background:#D9D0C2"></div><p class="name">Line</p><p class="hex">#D9D0C2</p><p class="use">Hairline dividers on light surfaces</p></div>
+    </div>
+  </div>
+</section>
+
+<section id="type">
+  <div class="wrap">
+    <div class="section-head">
+      <div>
+        <p class="num">02 — Foundations</p>
+        <h2>Typography</h2>
+      </div>
+      <p>Playfair Display for statements, Inter for structure, Caveat for the
+      occasional handwritten aside.</p>
+    </div>
+
+    <div class="type-row">
+      <span class="label">Display XL / 58</span>
+      <div class="sample t-display-xl">The way she knows</div>
+    </div>
+    <div class="type-row">
+      <span class="label">Display LG / 38</span>
+      <div class="sample t-display-lg">Structured. Scaleable. Smart.</div>
+    </div>
+    <div class="type-row">
+      <span class="label">Display MD / 26</span>
+      <div class="sample t-display-md">content analysis</div>
+    </div>
+    <div class="type-row">
+      <span class="label">Script accent</span>
+      <div class="sample t-script">Getting Inspired</div>
+    </div>
+    <div class="type-row">
+      <span class="label">Label / 12</span>
+      <div class="sample t-label">Behind the scenes</div>
+    </div>
+    <div class="type-row">
+      <span class="label">Body large / 17</span>
+      <div class="sample t-body-lg">We believe in classic strategy, sustainable growth, and everyday consistency — built to be read, shared, and remembered.</div>
+    </div>
+    <div class="type-row">
+      <span class="label">Body / 15</span>
+      <div class="sample t-body">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam varius leo vitae hendrerit pretium.</div>
+    </div>
+    <div class="type-row">
+      <span class="label">Caption / 12</span>
+      <div class="sample t-caption">brandsite.com — @yourusername</div>
+    </div>
+    <div class="type-row">
+      <span class="label">Handwritten</span>
+      <div class="sample t-hand">a little reminder to all creatives</div>
+    </div>
+  </div>
+</section>
+
+<section id="grid">
+  <div class="wrap">
+    <div class="section-head">
+      <div>
+        <p class="num">03 — Layout</p>
+        <h2>The moodboard grid</h2>
+      </div>
+      <p>Three columns, no gutter. Alternate photo cards with typographic
+      statement cards so the grid reads as curated, not repetitive.</p>
+    </div>
+  </div>
+  <div class="grid3">
+    <div class="cell bg-ink"><h3 style="font-size:30px">The Content<br><em style="font-style:italic;color:var(--sand)">Dept.</em></h3><p style="color:#cbbfb0">Content Studio — Est. 2025</p></div>
+    <div class="cell bg-sand photo-block"><span class="eyebrow" style="color:#3a2e22">Brand Name</span><h3 style="font-size:22px;color:var(--ink)">workplace<br>wellness</h3></div>
+    <div class="cell bg-wine"><span class="eyebrow">Brand Name</span><h3 style="font-size:30px">The way<br>she knows</h3></div>
+
+    <div class="cell bg-sand photo-block"><span class="photo-tag">Studio</span></div>
+    <div class="cell bg-cream"><h3 style="font-size:24px;color:var(--wine)">NEW<br><span style="color:var(--ink)">SERVICES</span></h3></div>
+    <div class="cell bg-black photo-block"><span class="photo-tag" style="background:rgba(28,19,14,0.85);color:var(--cream)">New Client Work</span></div>
+
+    <div class="cell bg-sand photo-block"><span class="photo-tag">Reminder</span></div>
+    <div class="cell bg-cream"><h3 style="font-size:24px;line-height:1.05">Structured.<br>Scaleable.<br>Smart.</h3></div>
+    <div class="cell bg-blue photo-block"><span class="eyebrow" style="color:#28323c">Brand Name</span></div>
+  </div>
+</section>
+
+<section id="components">
+  <div class="wrap">
+    <div class="section-head">
+      <div>
+        <p class="num">04 — Components</p>
+        <h2>Studio objects</h2>
+      </div>
+      <p>The tactile pieces that keep the grid from feeling flat: pinned notes,
+      sticky reminders, polaroids, seals.</p>
+    </div>
+
+    <div class="comp-grid">
+
+      <div class="comp-card">
+        <div class="pin-demo photo-block">
+          <div class="pin-note">“Timeless pieces that speak with quiet confidence”</div>
+        </div>
+        <p class="cap">Pinned quote card</p>
+      </div>
+
+      <div class="comp-card">
+        <div class="sticky-demo">
+          <p class="h">A little reminder</p>
+          <p class="t-hand" style="font-size:20px;margin:0;">not everything needs to be perfect today</p>
+        </div>
+        <p class="cap">Sticky note</p>
+      </div>
+
+      <div class="comp-card">
+        <div class="polaroid-demo">
+          <div class="polaroid p1"><div class="ph"></div></div>
+          <div class="polaroid p2"><div class="ph"></div></div>
+        </div>
+        <p class="cap">Polaroid stack</p>
+      </div>
+
+      <div class="comp-card">
+        <div class="seal"><span>C</span></div>
+        <p class="cap">Wax seal mark</p>
+      </div>
+
+      <div class="comp-card">
+        <div class="tag-row">
+          <span class="tag">Today's News</span>
+          <span class="tag solid">Behind the Scenes</span>
+        </div>
+        <p class="cap">Eyebrow / tag labels</p>
+      </div>
+
+      <div class="comp-card">
+        <div class="btn-row">
+          <button class="btn primary">Start a project</button>
+          <button class="btn">View services</button>
+        </div>
+        <p class="cap">Buttons</p>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<section id="spacing">
+  <div class="wrap">
+    <div class="section-head">
+      <div>
+        <p class="num">05 — Foundations</p>
+        <h2>Spacing</h2>
+      </div>
+      <p>8px base unit. Cards use generous padding — the grid needs air around
+      the type to feel editorial rather than cramped.</p>
+    </div>
+
+    <div class="space-row"><span class="lbl">8 — xs</span><div class="bar" style="width:8px"></div></div>
+    <div class="space-row"><span class="lbl">16 — sm</span><div class="bar" style="width:16px"></div></div>
+    <div class="space-row"><span class="lbl">24 — md</span><div class="bar" style="width:24px"></div></div>
+    <div class="space-row"><span class="lbl">32 — lg</span><div class="bar" style="width:32px"></div></div>
+    <div class="space-row"><span class="lbl">48 — xl</span><div class="bar" style="width:48px"></div></div>
+    <div class="space-row"><span class="lbl">64 — 2xl</span><div class="bar" style="width:64px"></div></div>
+    <div class="space-row"><span class="lbl">96 — 3xl</span><div class="bar" style="width:96px"></div></div>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">
+    <span>The Content Dept. — Design System</span>
+    <span>Color · Type · Grid · Components · Spacing</span>
+  </div>
+</footer>
+
+</body>
+</html>
