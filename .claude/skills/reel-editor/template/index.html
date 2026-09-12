@@ -1,0 +1,220 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=1080, height=1920" />
+  <script src="https://cdn.jsdelivr.net/npm/gsap@3.14.2/dist/gsap.min.js"></script>
+  <style>
+    /* ===== self-hosted premium fonts (relative to this file) ===== */
+    @font-face{font-family:'Geist';src:url('fonts/Geist.woff2') format('woff2');font-weight:100 900;font-display:block;}
+    @font-face{font-family:'Instrument Serif';src:url('fonts/InstrumentSerif-Regular.woff2') format('woff2');font-weight:400;font-style:normal;font-display:block;}
+    @font-face{font-family:'Instrument Serif';src:url('fonts/InstrumentSerif-Italic.woff2') format('woff2');font-weight:400;font-style:italic;font-display:block;}
+
+    *{margin:0;padding:0;box-sizing:border-box;}
+    html,body{width:1080px;height:1920px;overflow:hidden;background:#070708;}
+    #root{width:100%;height:100%;font-family:'Geist',system-ui,sans-serif;
+      --bg:#070708; --fg:#F7F7F8; --muted:#9aa0a8; --hair:rgba(255,255,255,0.16);
+      /* ===== SAFE AREA (IG Reels + TikTok) — non-negotiable =====
+         Avoid: top 220px (header/clock), bottom 500px (caption row + share rail),
+         sides 60px (bezels / TikTok interaction rail).
+         Active safe zone for critical content: x=60-1020, y=220-1420. */
+      --safe-top:220px; --safe-bottom:500px; --safe-side:60px;
+      --safe-top-pct:11.5%; --safe-bottom-pct:26%; --safe-side-pct:5.5%;}
+
+    /* Safe-area debug overlay — enable by adding class="safe-guide" on #root.
+       Renders red strokes at the avoid edges. Don't leave on in final renders. */
+    #root.safe-guide::before{content:"";position:absolute;inset:0;z-index:999;pointer-events:none;
+      border-top:var(--safe-top) solid rgba(255,40,80,0.18);
+      border-bottom:var(--safe-bottom) solid rgba(255,40,80,0.18);
+      border-left:var(--safe-side) solid rgba(255,40,80,0.18);
+      border-right:var(--safe-side) solid rgba(255,40,80,0.18);}
+    #root.safe-guide::after{content:"SAFE ZONE";position:absolute;top:var(--safe-top);left:var(--safe-side);
+      right:var(--safe-side);bottom:var(--safe-bottom);z-index:999;pointer-events:none;
+      border:2px dashed rgba(80,255,160,0.6);color:rgba(80,255,160,0.8);
+      font:600 22px/2 'Geist';letter-spacing:0.2em;text-align:center;}
+
+    /* ===== footage stage (wrapper is animated for reframes; video has the data-attrs) ===== */
+    #fwrap{position:absolute;top:3%;left:3%;width:94%;height:94%;border-radius:28px;overflow:hidden;
+      box-shadow:0 18px 50px rgba(0,0,0,0.55);}
+    #footage{width:100%;height:100%;object-fit:cover;}
+
+    /* ===== mood gradients (applied to hero caption word + hot diagram accents) ===== */
+    .mood-silver{background-image:linear-gradient(180deg,#ffffff,#c4c7cd 60%,#9aa0a8);}
+    .mood-cool{background-image:linear-gradient(115deg,#c8d6ff,#e7d6ff 50%,#ffd9ec);}
+    .mood-warm{background-image:linear-gradient(180deg,#fff6ea,#ecd6b8 60%,#cdb392);}
+    .grad-text{-webkit-background-clip:text;background-clip:text;color:transparent;}
+
+    /* ===== captions ===== */
+    #captions{position:absolute;inset:0;z-index:40;pointer-events:none;}
+    .cap-group{position:absolute;left:0;width:1080px;padding:0 90px;text-align:center;opacity:0;}
+    /* zone-lower sits ABOVE the IG/TikTok caption row (safe-bottom = 26%).
+       zone-middle is used during a reframe so captions don't collide with the split. */
+    .cap-group.zone-lower{bottom:26%;}
+    .cap-group.zone-middle{top:46%;}
+    .cap-word{display:inline-block;font-family:'Geist';font-weight:700;font-size:64px;line-height:1.05;
+      letter-spacing:-0.01em;color:var(--fg);text-shadow:0 2px 10px rgba(0,0,0,0.55),0 0 2px rgba(0,0,0,0.5);
+      margin:0 8px;will-change:transform,filter,opacity;}
+    .cap-group.spike .cap-word{font-size:54px;}
+    .cap-hero{font-family:'Instrument Serif';font-style:italic;font-weight:400;letter-spacing:0.005em;
+      font-size:104px;line-height:0.92;display:inline-block;filter:drop-shadow(0 3px 10px rgba(0,0,0,0.5));}
+    .cap-group.spike{padding:0 70px;}
+    .cap-group.spike .cap-sup-line{display:block;}
+    .cap-group.spike .cap-hero{display:block;font-size:128px;margin-top:2px;}
+
+    /* ===== glass + diagrams layer ===== */
+    #aids{position:absolute;inset:0;z-index:30;}
+    .aid{position:absolute;opacity:0;}
+    .glass{position:relative;overflow:hidden;border-radius:24px;padding:30px 34px;
+      background:linear-gradient(155deg,rgba(255,255,255,0.13),rgba(255,255,255,0.04));
+      -webkit-backdrop-filter:blur(22px) saturate(1.3);backdrop-filter:blur(22px) saturate(1.3);
+      border:1px solid var(--hair);
+      box-shadow:0 22px 55px rgba(0,0,0,0.5),inset 0 1px 0 rgba(255,255,255,0.30);}
+    .glass::before{content:"";position:absolute;left:0;right:0;top:0;height:40%;
+      background:linear-gradient(180deg,rgba(255,255,255,0.22),transparent);pointer-events:none;}
+    .d-eyebrow{font-family:'Geist';font-size:26px;font-weight:600;letter-spacing:0.14em;text-transform:uppercase;
+      color:var(--muted);text-align:center;}
+    /* flow / loop diagram */
+    .flow{display:flex;align-items:center;justify-content:center;gap:14px;margin-top:22px;flex-wrap:wrap;}
+    .node{font-family:'Geist';font-weight:800;font-size:38px;color:var(--fg);
+      background:rgba(11,11,12,0.5);border:1px solid var(--hair);border-radius:16px;padding:16px 24px;}
+    .node.hot{border-color:rgba(255,255,255,0.4);color:#0b0b0c;}
+    .node.hot.mood-silver,.node.hot.mood-cool,.node.hot.mood-warm{}
+    .arrow{font-family:'Geist';font-size:40px;font-weight:800;color:var(--muted);}
+    /* meter diagram */
+    .meter-track{margin-top:24px;height:30px;border-radius:999px;background:rgba(11,11,12,0.55);
+      border:1px solid var(--hair);overflow:hidden;}
+    .meter-fill{height:100%;width:100%;border-radius:999px;transform-origin:left center;}
+    .meter-row{display:flex;justify-content:space-between;align-items:baseline;margin-top:16px;}
+    .meter-row .l{font-family:'Geist';font-size:26px;font-weight:600;letter-spacing:0.05em;color:var(--muted);text-transform:uppercase;}
+    .meter-row .v{font-family:'Geist';font-size:38px;font-weight:800;}
+  </style>
+</head>
+<body>
+  <!-- ============================================================
+       FILL ME per video:
+         data-duration  = clip length in seconds (also update DUR below)
+         clip.mp4        = trimmed SDR footage (from render.py)
+         voice.m4a       = audio extracted from clip.mp4
+         GROUPS, REFRAMES, AIDS arrays in the script
+     ============================================================ -->
+  <div id="root" data-composition-id="main" data-start="0" data-duration="6" data-width="1080" data-height="1920">
+
+    <div id="fwrap">
+      <video id="footage" data-start="0" data-duration="6" data-track-index="0" src="clip.mp4" muted playsinline></video>
+    </div>
+    <audio id="voice" data-start="0" data-duration="6" data-track-index="1" src="voice.m4a"></audio>
+
+    <!-- glass / diagram aids (author HTML per beat; copy components from components.md) -->
+    <div id="aids" class="clip" data-start="0" data-duration="6" data-track-index="2">
+      <!-- EXAMPLE diagram — replace/add per beat
+           (Position respects safe area: bottom: 28% clears the IG caption row; left/right 8% clears bezels.) -->
+      <div id="aid-loop" class="aid" data-in="2.6" data-out="5.8" style="left:8%;right:8%;bottom:28%;">
+        <div class="glass">
+          <div class="d-eyebrow">the reward loop</div>
+          <div class="flow">
+            <span class="node" id="ln-0">dodge</span>
+            <span class="arrow">&rarr;</span>
+            <span class="node" id="ln-1">feel better</span>
+            <span class="arrow">&rarr;</span>
+            <span class="node hot grad-text mood-cool" id="ln-2" style="background-clip:border-box;-webkit-background-clip:border-box;color:#0b0b0c;">dodge faster</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- captions (built by script) -->
+    <div id="captions" class="clip" data-start="0" data-duration="6" data-track-index="3"></div>
+
+    <script>
+      window.__timelines = window.__timelines || {};
+      const tl = gsap.timeline({ paused: true });
+      const DUR = 6; // FILL ME: match data-duration
+
+      /* =======================================================================
+         CAPTION DATA — explicit groups (the editorial pass produces these).
+         Each group: { mood:'silver'|'cool'|'warm', flavor:'baseline'|'spike',
+                       hero: <wordIndex or -1>, words:[{w,s,e}, ...] }
+         3-4 words per group. hero word renders in Instrument Serif + mood gradient.
+         ======================================================================= */
+      const GROUPS = [
+        { mood:'silver', flavor:'baseline', hero:-1, words:[{w:'your',s:0.2,e:0.4},{w:'brain',s:0.42,e:0.7},{w:'gets',s:0.72,e:0.95}] },
+        { mood:'cool', flavor:'spike', hero:0, words:[{w:'rewarded',s:1.1,e:1.9}] }
+      ];
+
+      /* REFRAMES — footage shrinks into a box during [in,out], then back to full.
+         layout is just a label; box drives the wrapper animation. */
+      const FULL = { top:'3%', left:'3%', width:'94%', height:'94%', borderRadius:28 };
+      const REFRAMES = [
+        { in:2.5, out:5.9, layout:'split-top', box:{ top:'5%', left:'27%', width:'46%', height:'40%', borderRadius:20 } }
+      ];
+
+      /* ===== build captions ===== */
+      const capRoot = document.getElementById('captions');
+      function reframeActiveAt(t){ return REFRAMES.some(r => t >= r.in && t <= r.out); }
+
+      GROUPS.forEach(function(g, gi){
+        var gs = g.words[0].s;
+        var ge = g.words[g.words.length-1].e;
+        var mid = (gs+ge)/2;
+        var div = document.createElement('div');
+        div.className = 'cap-group ' + g.flavor + ' ' + (reframeActiveAt(mid) ? 'zone-middle' : 'zone-lower');
+        div.id = 'cg-' + gi;
+
+        g.words.forEach(function(wd, wi){
+          var isHero = (wi === g.hero);
+          var sp = document.createElement('span');
+          sp.id = 'cw-' + gi + '-' + wi;
+          if (isHero){
+            sp.className = 'cap-hero grad-text mood-' + g.mood;
+            sp.textContent = wd.w;
+          } else {
+            sp.className = 'cap-word';
+            sp.textContent = wd.w;
+          }
+          // spike layout: non-hero words on one line above the hero
+          if (g.flavor === 'spike' && !isHero){ sp.classList.add('cap-sup-line'); }
+          div.appendChild(sp);
+        });
+        capRoot.appendChild(div);
+
+        // group container appears at first word
+        tl.set(div, { opacity:1 }, Math.max(0, gs - 0.05));
+        // per-word blur-in at each word's spoken time (premium)
+        g.words.forEach(function(wd, wi){
+          var sel = '#cw-' + gi + '-' + wi;
+          tl.fromTo(sel,
+            { opacity:0, filter:'blur(10px)', y:14, scale:0.95 },
+            { opacity:1, filter:'blur(0px)', y:0, scale:1, duration:0.34, ease:'power3.out' },
+            wd.s);
+        });
+        // hard kill at group end (deterministic)
+        tl.to(div, { opacity:0, duration:0.14, ease:'power2.in' }, ge);
+        tl.set(div, { opacity:0, visibility:'hidden' }, ge + 0.001);
+      });
+
+      /* ===== reframes (animate the footage wrapper) ===== */
+      REFRAMES.forEach(function(r){
+        tl.to('#fwrap', Object.assign({ duration:0.7, ease:'power3.inOut' }, r.box), r.in);
+        tl.to('#fwrap', Object.assign({ duration:0.7, ease:'power3.inOut' }, FULL), r.out);
+      });
+
+      /* ===== aids: generic enter/exit ===== */
+      document.querySelectorAll('#aids .aid').forEach(function(el){
+        var s = parseFloat(el.dataset.in), e = parseFloat(el.dataset.out);
+        tl.fromTo(el, { opacity:0, y:24, filter:'blur(8px)' },
+          { opacity:1, y:0, filter:'blur(0px)', duration:0.4, ease:'power3.out', overwrite:'auto' }, s);
+        tl.to(el, { opacity:0, duration:0.25, ease:'power2.in', overwrite:'auto' }, Math.max(s+0.3, e-0.25));
+        tl.set(el, { visibility:'hidden' }, e + 0.001);
+      });
+
+      /* ===== example diagram internal motion (loop nodes pop in sequence) ===== */
+      ['#ln-0','#ln-1','#ln-2'].forEach(function(sel, i){
+        tl.from(sel, { scale:0.8, opacity:0, duration:0.3, ease:'back.out(1.6)' }, 2.8 + i*0.5);
+      });
+
+      tl.set({}, {}, DUR); // sentinel: hold full duration
+      window.__timelines['main'] = tl;
+    </script>
+  </div>
+</body>
+</html>
