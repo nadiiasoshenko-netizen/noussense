@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """
 Main entry point: takes a filmed video + a beats.json timeline and produces
-a final MP4 with GE-styled captions burned in and any synced graphics
+a final MP4 with NS-styled captions burned in and any synced graphics
 composited on top.
 
 Usage:

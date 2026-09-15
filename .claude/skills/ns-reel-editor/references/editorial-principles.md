@@ -1,6 +1,6 @@
-# The Growth Edit — Editorial Principles for Editing Uploaded Footage
+# Nous Sense — Editorial Principles for Editing Uploaded Footage
 
-This distills The Growth Edit's Reel Editor philosophy down to the parts that
+This distills Nous Sense's Reel Editor philosophy down to the parts that
 apply when the raw material is **already filmed** — someone's uploaded a
 talking-head video and the job is to trim it, caption it, and add
 big-number/infographic moments. It deliberately leaves out everything about
@@ -103,7 +103,7 @@ that keeps the video from feeling flat.
 ## The follow-bridge line (optional, don't force it)
 
 If the story naturally lands on perceived value, pricing, branding, status,
-or scarcity, The Growth Edit's recurring closing thought works well as the
+or scarcity, Nous Sense's recurring closing thought works well as the
 final caption: *"So what else are you paying for — because someone made it
 feel valuable?"* Only use it when the story actually earns it — forcing it
 onto a video that isn't about that theme will feel mechanical, which is the

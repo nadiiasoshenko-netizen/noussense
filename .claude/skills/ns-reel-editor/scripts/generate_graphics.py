@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-Generate GE-styled transparent PNG overlays for reel captions: arrows and
+Generate NS-styled transparent PNG overlays for reel captions: arrows and
 comparison bars. Kept deliberately simple (thin lines, no shadows, no
 gradients) to match the carousel infographic style — see
 references/design-tokens.md for the full rationale.

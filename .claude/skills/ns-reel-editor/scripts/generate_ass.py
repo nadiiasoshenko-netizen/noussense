@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """
 Convert a beats.json timeline into a styled .ass subtitle file using The
-Growth Edit's four caption modes (kicker / statement / hook / stat).
+Nous Sense's four caption modes (kicker / statement / hook / stat).
 
 beats.json schema — a list of beat objects:
 [

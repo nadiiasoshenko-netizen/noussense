@@ -1,13 +1,13 @@
 ---
-name: ge-reel-editor
-description: Edit uploaded Instagram Reels footage for The Growth Edit — trimming dead air/weak sections, adding dynamic on-brand animated captions, and inserting big-number and infographic moments (comparison bars, directional arrows). Use this skill whenever the user uploads a video of themselves speaking and wants it turned into a finished reel, wants captions added or the video "trimmed where necessary," wants text that "isn't just plain subtitles," wants numbers/stats visually emphasized, or references The Growth Edit's brand colors (wine-red, cream, espresso, taupe) or retention/hook principles in the context of editing a video. This is an EDITING skill for footage that already exists — it does not source B-roll, generate video from scratch, run trend research, or produce thumbnails/music selection.
+name: ns-reel-editor
+description: Edit uploaded Instagram Reels footage for Nous Sense — trimming dead air/weak sections, adding dynamic on-brand animated captions, and inserting big-number and infographic moments (comparison bars, directional arrows). Use this skill whenever the user uploads a video of themselves speaking and wants it turned into a finished reel, wants captions added or the video "trimmed where necessary," wants text that "isn't just plain subtitles," wants numbers/stats visually emphasized, or references Nous Sense's brand colors (wine-red, cream, espresso, taupe) or retention/hook principles in the context of editing a video. This is an EDITING skill for footage that already exists — it does not source B-roll, generate video from scratch, run trend research, or produce thumbnails/music selection.
 ---
 
-# GE Reel Editor
+# NS Reel Editor
 
 Takes footage the user has already filmed and turns it into a finished,
 on-brand Instagram Reel: trim what's not earning its place, add animated
-captions in The Growth Edit's exact visual language, and land the numbers
+captions in Nous Sense's exact visual language, and land the numbers
 that matter as designed infographic moments instead of things that are only
 spoken. It's built to feel like a designed motion graphic — not auto-generated
 subtitles with a color swap, and not a generic template.
