@@ -1,11 +1,11 @@
 ---
-name: growth-edit-carousels
-description: Design and build Instagram carousel slides for The Growth Edit using its editorial studio design system (espresso ink, cream, one wine-red accent, Playfair Display + Inter type). Use this skill whenever the user asks to create, design, draft, or export Instagram carousel slides, posts, story graphics, or any social content for "The Growth Edit," or mentions carousel slides / IG posts alongside this brand's look. Also use it if the user asks to reuse "the design system," "the moodboard style," or "the brand colors" for social content, even without naming the project. Covers slide layout conventions, on-brand components, growth-format slide templates (result/list/tool-drop), and the HTML → PNG export workflow.
+name: nous-sense-carousels
+description: Design and build Instagram carousel slides for Nous Sense using its editorial studio design system (espresso ink, cream, one wine-red accent, Playfair Display + Inter type). Use this skill whenever the user asks to create, design, draft, or export Instagram carousel slides, posts, story graphics, or any social content for "Nous Sense," or mentions carousel slides / IG posts alongside this brand's look. Also use it if the user asks to reuse "the design system," "the moodboard style," or "the brand colors" for social content, even without naming the project. Covers slide layout conventions, on-brand components, growth-format slide templates (result/list/tool-drop), and the HTML → PNG export workflow.
 ---
 
-# The Growth Edit — Instagram Carousel Skill
+# Nous Sense — Instagram Carousel Skill
 
-Builds on-brand Instagram carousel slides for **The Growth Edit** using the studio's
+Builds on-brand Instagram carousel slides for **Nous Sense** using the studio's
 editorial design system (see `references/design-system.md` for the full token set —
 read it before building anything if you need exact hex values, type scale, or
 component specs beyond the summary below).
@@ -63,7 +63,7 @@ writing.
   headlines, 22–26px for body copy, 13–15px uppercase/tracked for labels and
   the brand mark.
 - **Brand mark:** small, consistent, same position every slide (bottom-center
-  or bottom-left, per the moodboard reference) — either "THE GROWTH EDIT" in
+  or bottom-left, per the moodboard reference) — either "NOUS SENSE" in
   the label style, or the wax-seal mark component. Pick one and repeat it
   across the whole set; never mix.
 

@@ -1,9 +1,9 @@
 ---
 name: trend-scout
-description: Monitor what The Growth Edit's industry is talking about right now and turn it into ranked video ideas, by scraping fresh content from the brand's newsletters and news sources with Apify (never from memory). Use whenever the user asks to check the news, run trend scout, find video ideas, see what's trending in fashion/luxury/beauty/culture, or invokes /trend-scout by name.
+description: Monitor what Nous Sense's industry is talking about right now and turn it into ranked video ideas, by scraping fresh content from the brand's newsletters and news sources with Apify (never from memory). Use whenever the user asks to check the news, run trend scout, find video ideas, see what's trending in fashion/luxury/beauty/culture, or invokes /trend-scout by name.
 ---
 
-# Trend Scout — The Growth Edit
+# Trend Scout — Nous Sense
 
 Monitors what the industry is talking about right now and turns it into ranked
 video ideas. Works by actually pulling fresh content from the sources below,
@@ -15,7 +15,7 @@ training data. Live data is the entire job.
 
 ## The brand
 
-**The Growth Edit** sits at the intersection of fashion, luxury, beauty, food,
+**Nous Sense** sits at the intersection of fashion, luxury, beauty, food,
 travel, brands, culture, consumer psychology and business — turning fascinating
 facts and everyday observations into short, smart, highly shareable stories.
 Think Vogue meets "explained" videos meets smart-girl curiosity.
@@ -79,7 +79,7 @@ Laboratory, TrendWatching, The Impression, Glossy, Retail Brew, The Ankler,
 The Generalist, Not Boring
 
 A Vogue story about a new handbag, a TikTok obsession, a Champagne shortage, a
-weird hotel trend, or a viral Starbucks drink can all become Growth Edit
+weird hotel trend, or a viral Starbucks drink can all become Nous Sense
 material.
 
 **Not in scope: X/Twitter.** X blocks unauthenticated scraping (login walls),

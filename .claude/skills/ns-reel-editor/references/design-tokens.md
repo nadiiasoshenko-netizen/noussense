@@ -1,4 +1,4 @@
-# The Growth Edit — Reel Caption Design Tokens
+# Nous Sense — Reel Caption Design Tokens
 
 This is the single source of truth for colors, type, and style-mode rules used by
 `scripts/generate_ass.py` and `scripts/generate_graphics.py`. If the brand system
