@@ -19,7 +19,7 @@ first task boundary instead of never.
 Loading a skill is not complete until you have queried the observation
 log for OPEN observations naming it and read their bodies:
   grep -l "skill:.*<skill-name>" \
-    /home/user/thegrowthedit/.claude/skill-observations/observation-log/*.md
+    /home/user/noussense/.claude/skill-observations/observation-log/*.md
 Apply their insights to the current work, even if the skill file hasn't
 been updated yet. Run this at every skill load, however many skills load
 in one session. The session-start scan does not cover it: that is a
@@ -27,12 +27,12 @@ frontmatter sweep over every observation at session start, this is a
 body-level lookup for one skill at the moment its rules are applied.
 
 The task-observer workspace for this project is:
-  /home/user/thegrowthedit/.claude
+  /home/user/noussense/.claude
 Every path the skill uses derives from that root and nothing else:
-  /home/user/thegrowthedit/.claude/skill-observations/observation-log/   (the log)
-  /home/user/thegrowthedit/.claude/skill-observations/cross-cutting-principles.md
-  /home/user/thegrowthedit/.claude/skill-updates/                        (staging root)
-  /home/user/thegrowthedit/.claude/skill-updates/PENDING.md              (staging manifest)
+  /home/user/noussense/.claude/skill-observations/observation-log/   (the log)
+  /home/user/noussense/.claude/skill-observations/cross-cutting-principles.md
+  /home/user/noussense/.claude/skill-updates/                        (staging root)
+  /home/user/noussense/.claude/skill-updates/PENDING.md              (staging manifest)
 Never resolve any of them from the current working directory — a cwd
 inside an ephemeral checkout (a git worktree, a temporary clone) is torn
 down and takes the log with it. Never place the workspace inside a
