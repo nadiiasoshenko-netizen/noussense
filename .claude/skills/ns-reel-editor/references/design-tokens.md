@@ -5,6 +5,10 @@ This is the single source of truth for colors, type, and style-mode rules used b
 changes, update this file first — the scripts read their defaults from here (or
 mirror these exact values if hardcoded).
 
+**This is the locked Nous Sense visual identity** (`Nous Sense/13 - NS Website
+Visual Identity.md`), applied brand-wide — carousels, Reels, and the website all
+share one system now. It supersedes the earlier ink/cream/wine/Playfair system.
+
 ## Colors (RGB hex → ASS BGR)
 
 ASS subtitle colors use `&HAABBGGRR` (alpha, blue, green, red — reverse byte order
@@ -13,34 +17,43 @@ is spelled out here rather than left to memory:
 
 | Name | Hex (RGB) | ASS (&HAABBGGRR) | Use |
 |---|---|---|---|
-| Espresso ink | `#1c130e` | `&H000E131C` | Dark backgrounds, body text on light bg |
-| Cream / ivory | `#f1eae0` | `&H00E0EAF1` | Light backgrounds, text on dark bg |
-| Cream (alt) | `#faf6f0` | `&H00F0F6FA` | Secondary light bg tone |
-| Taupe | `#c9b48c` | `&H008CB4C9` | Kicker text on dark/photo backgrounds |
-| Light stone | `#d9d0c2` | `&H00C2D0D9` | Muted bar-chart baseline segments |
-| Cool blue-grey | `#acb9c6` | `&H00C6B9AC` | Dividers, secondary bar segments |
-| Wine-red (accent) | `#6b2430` | `&H0030246B` | The ONE saturated color — hooks, emphasis, kicker labels on light bg, stat numbers when the number itself is the "hook" |
-| Muted grey | `#6b6157` | `&H00576166` | Small labels under bar-chart segments |
+| White | `#ffffff` | `&H00FFFFFF` | Page/canvas ground itself |
+| Paper | `#f5f0e6` | `&H00E6F0F5` | Light backgrounds, text on dark bg |
+| Stone | `#e9dcbf` | `&H00BFDCE9` | Secondary light surface, muted bar-chart baseline segments |
+| Plaster (Pale Clay) | `#d2c0a3` | `&H00A3C0D2` | The one accent panel per composition (primary) |
+| Sand | `#c9b79c` | `&H009CB7C9` | Swappable alternate accent panel; kicker text on dark footage |
+| Grey | `#8a7f6b` | `&H006B7F8A` | Muted / secondary text, kicker text on light footage |
+| Espresso | `#201810` | `&H00101820` | The ONE deliberate dark moment per composition — hooks, emphasis, stat numbers when the number itself is the "hook" |
 
-**Rule: only one accent color per video.** Wine-red is it. Never introduce a second
-saturated color (no blue, no green, no orange) even for "variety" — variety comes
-from typography and layout, not from adding colors.
+**The 80/20 rule:** any given composition (a whole carousel slide, a reel's full
+frame at a given moment) should read as roughly 80% light (White/Paper/Stone/
+Plaster/Sand) to 20% Espresso, used once, deliberately. This is the system's one
+"loud" moment — it is color, not typography. There is no separate saturated
+accent color (no wine, no "ember" amber — both were tried on the website and
+dropped); Espresso itself, used sparingly, is the emphasis mechanism.
 
 ## Typography
 
-- **Serif (headlines, stats, hooks):** Playfair Display. Drop the actual font files
-  (`PlayfairDisplay-Regular.ttf`, `PlayfairDisplay-Medium.ttf`,
-  `PlayfairDisplay-BoldItalic.ttf`) into `assets/fonts/` for an exact match —
-  download from Google Fonts if the environment has network access. If absent,
-  the scripts fall back to **DejaVu Serif**, which is close enough in weight and
-  proportion not to look broken, but flag this to the user once so they know to
-  add the real fonts later.
-- **Sans (kickers, small labels):** Inter. Same pattern — drop
-  `Inter-Bold.ttf` / `Inter-SemiBold.ttf` into `assets/fonts/`, fall back to
-  **DejaVu Sans Bold** or **Liberation Sans Bold** if absent.
-- Kicker text is always small caps styling via actual uppercase characters (ASS
-  doesn't reliably support CSS-style small-caps), bold, letter-spaced (`\fsp4` or
-  higher in ASS tags).
+Two families only, per the locked system:
+
+- **Inter** — does everything: body copy, small tracked labels/kickers,
+  statement and stat text, and the wordmark. Drop `Inter-Regular.ttf`,
+  `Inter-Medium.ttf`, `Inter-SemiBold.ttf`, `Inter-Bold.ttf` into
+  `assets/fonts/` for an exact match — download from Google Fonts if the
+  environment has network access. If absent, the scripts fall back to
+  **DejaVu Sans**, which is close enough not to look broken, but flag this
+  to the user once so they know to add the real fonts later.
+- **Schibsted Grotesk** — held in reserve, with exactly one job: whatever
+  sits inside the Espresso "band" moment — in a reel, that's the `hook` and
+  `stat_hook` (number-is-the-hook) styles. Not used anywhere else. Drop
+  `SchibstedGrotesk-Bold.ttf` into `assets/fonts/` if available; without it,
+  hook/stat_hook fall back to Inter Bold, which still reads as the loud
+  moment via the Espresso box (below) even without the exact typeface.
+- Kicker text renders as a **bracketed micro-label** — `[ QUICK CONTEXT ]` —
+  the locked structural device, not plain uppercase alone (handled
+  automatically by `generate_ass.py`). Actual uppercase characters, not
+  CSS-style small-caps (ASS doesn't reliably support that), bold,
+  letter-spaced (`\fsp4` or higher in ASS tags).
 
 ## The four caption modes
 
@@ -53,16 +66,17 @@ Short (2–5 word) section labels — spoken transitions like "quick context," "
 the turn," "so here's the lesson." Not every sentence needs one; use at natural
 section boundaries, roughly once per 3–5 statement beats.
 - Font: Inter Bold, small size (~34px at 1080×1920), letter-spaced
-- Color: wine-red on light/neutral background footage, taupe if the footage is
-  dark (contrast check matters more than rigid color assignment here)
+- Displayed as a bracketed micro-label: `[ QUICK CONTEXT ]`
+- Color: Sand on dark footage, Grey on light footage (contrast check matters
+  more than rigid color assignment here)
 - Position: top-left, matching the carousel kicker convention
 - Motion: simple fade in/out, no scale or slide — kickers are quiet, not loud
 
 ### 2. `statement`
 The default mode. Regular explanatory sentences — the connective tissue of the
 script.
-- Font: Playfair Display Regular/Medium, mid-large size (~60–66px)
-- Color: cream on dark footage, espresso ink on light footage
+- Font: Inter Regular/Medium, mid-large size (~60–66px)
+- Color: Paper on dark footage, Espresso on light footage
 - Position: lower-third, centered
 - Motion: phrase-by-phrase reveal (break sentences into 3–6 word chunks that pop
   in sequentially rather than the whole sentence appearing at once) — this is the
@@ -71,20 +85,24 @@ script.
 ### 3. `hook`
 The line in each beat designed to land — the quotable insight, the turn, the
 punchline. There's usually exactly one hook per beat/section, not one per
-sentence.
-- Font: Playfair Display Bold Italic, larger than statement (~58–70px)
-- Color: wine-red, always — this is the one place the accent color appears in
-  running text, which is exactly why it reads as emphasis
+sentence. This is the reel's Espresso band moment.
+- Font: Schibsted Grotesk Bold (Inter Bold fallback), larger than statement
+  (~68px)
+- Treatment: a solid Espresso box (opaque background, not just colored text)
+  with Paper text — background-independent by design, always, the one place
+  the "loud" moment appears in running text, which is exactly why it reads
+  as emphasis regardless of what footage is behind it
 - Position: centered, slightly larger vertical margin so it feels like a "moment"
 - Motion: fade in with a touch more hold time than statement beats — let it sit
 
 ### 4. `stat`
 Any spoken number, price, percentage, or quantity worth seeing, not just hearing.
-- Font: Playfair Display, very large (~130–170px), the same scale used for the
+- Font: Inter, very large (~150px), the same scale used for the
   giant-number carousel slides
-- Color: cream on dark footage, espresso ink on light footage — UNLESS the number
-  itself is the emotional turn (e.g., "$60 million"), in which case use wine-red
-  to double down on it landing as a hook
+- Color: Paper on dark footage, Espresso on light footage — UNLESS the number
+  itself is the emotional turn (e.g., "$60 million"), in which case use the
+  same Espresso-box/Schibsted-Grotesk treatment as `hook` to double down on
+  it landing as the video's one loud moment
 - Position: center screen, brief hold (1.5–2.5s is usually enough — don't let a
   giant number sit so long it starts to feel like a slide, not a video)
 - Pair with a small supporting graphic (see below) roughly half the time — not
@@ -96,15 +114,16 @@ Any spoken number, price, percentage, or quantity worth seeing, not just hearing
 Keep these as understated as the carousel infographics — thin lines, no drop
 shadows, no gradients, no 3D. Three types cover almost everything:
 
-- **`arrow_up` / `arrow_down`**: a single thin wine-red arrow, used when a number
+- **`arrow_up` / `arrow_down`**: a single thin arrow in this video's emphasis
+  color (Paper on dark footage, Espresso on light footage), used when a number
   is framed as a rise or fall ("prices went up," "that dropped to..."). Don't
   pair with stats that aren't directional — an arrow next to "$240" with no
   before/after implied is confusing, not clarifying.
-- **`bar_compare`**: two horizontal bars, one short (light stone), one long
-  (wine-red), same visual language as the carousel bar charts. Use for any
-  "X vs Y" or "only a fraction of" moment — this is usually the single most
-  effective graphic in the whole video because the disproportion is visible,
-  not just stated.
+- **`bar_compare`**: two horizontal bars, one short (Stone), one long (this
+  video's emphasis color), same visual language as the carousel bar charts.
+  Use for any "X vs Y" or "only a fraction of" moment — this is usually the
+  single most effective graphic in the whole video because the disproportion
+  is visible, not just stated.
 - **`bubble_stat`**: a thin circular or pill outline around a number, used
   sparingly (roughly once per video) to mark the number the whole story hinges
   on — the "if you remember one number from this" moment.

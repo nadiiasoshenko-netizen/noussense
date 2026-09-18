@@ -1,7 +1,10 @@
 #!/usr/bin/env python3
 """
-Convert a beats.json timeline into a styled .ass subtitle file using The
-Nous Sense's four caption modes (kicker / statement / hook / stat).
+Convert a beats.json timeline into a styled .ass subtitle file using Nous
+Sense's four caption modes (kicker / statement / hook / stat), on the
+locked website visual identity system (see references/design-tokens.md) —
+White / Paper / Stone / Plaster / Sand / Grey / Espresso, Inter throughout,
+Schibsted Grotesk reserved for the one Espresso-band moment per video.
 
 beats.json schema — a list of beat objects:
 [
@@ -43,17 +46,20 @@ def hex_to_ass(hex_rgb: str, alpha: int = 0) -> str:
     r, g, b = hex_rgb[0:2], hex_rgb[2:4], hex_rgb[4:6]
     return f"&H{alpha:02X}{b}{g}{r}".upper()
 
-ESPRESSO = hex_to_ass("1c130e")
-CREAM = hex_to_ass("f1eae0")
-TAUPE = hex_to_ass("c9b48c")
-WINE = hex_to_ass("6b2430")
+PAPER = hex_to_ass("f5f0e6")
+SAND = hex_to_ass("c9b79c")
+GREY = hex_to_ass("8a7f6b")
+ESPRESSO = hex_to_ass("201810")
 
 def pick_fonts(fonts_dir: str | None):
-    """Prefer real brand fonts if present, else fall back — see
-    references/design-tokens.md. Returns (serif_name, sans_name) as they'll
-    be referenced in the ASS Fontname field; ffmpeg's libass resolves these
-    via fontconfig, so a font with that family name must be installed or
-    embedded, not just present as a file on disk."""
+    """Two families, per the locked system: Inter for everything, Schibsted
+    Grotesk reserved for the one Espresso-band moment (hook / stat_hook —
+    the video equivalent of the website's Espresso band). Prefer the real
+    families if present, else fall back — see references/design-tokens.md.
+    Returns (sans_name, band_name) as they'll be referenced in the ASS
+    Fontname field; ffmpeg's libass resolves these via fontconfig, so a font
+    with that family name must be installed or embedded, not just present as
+    a file on disk."""
     import subprocess
     def family_available(name: str) -> bool:
         try:
@@ -62,16 +68,23 @@ def pick_fonts(fonts_dir: str | None):
         except FileNotFoundError:
             return False
 
-    serif = "Playfair Display" if family_available("Playfair Display") else "DejaVu Serif"
     sans = "Inter" if family_available("Inter") else "DejaVu Sans"
-    if serif == "DejaVu Serif" or sans == "DejaVu Sans":
+    band = "Schibsted Grotesk" if family_available("Schibsted Grotesk") else sans
+    if sans == "DejaVu Sans":
         print(
-            "NOTE: Playfair Display / Inter not found via fontconfig — falling back to "
-            "DejaVu. For an exact brand match, install the real fonts (see "
+            "NOTE: Inter not found via fontconfig — falling back to DejaVu "
+            "Sans. For an exact brand match, install the real font (see "
             "references/design-tokens.md) and re-run.",
             file=sys.stderr,
         )
-    return serif, sans
+    if band == sans and sans != "DejaVu Sans":
+        print(
+            "NOTE: Schibsted Grotesk not found via fontconfig — hook/stat "
+            "moments will render in Inter Bold instead. Install Schibsted "
+            "Grotesk for an exact match (see references/design-tokens.md).",
+            file=sys.stderr,
+        )
+    return sans, band
 
 
 def chunk_text(text: str, max_words: int = 5) -> list[str]:
@@ -86,22 +99,28 @@ def chunk_text(text: str, max_words: int = 5) -> list[str]:
     return chunks or [text]
 
 
-def build_styles(serif: str, sans: str) -> str:
+def build_styles(sans: str, band: str) -> str:
     # Format: Name, Fontname, Fontsize, PrimaryColour, SecondaryColour,
     # OutlineColour, BackColour, Bold, Italic, Underline, StrikeOut, ScaleX,
     # ScaleY, Spacing, Angle, BorderStyle, Outline, Shadow, Alignment,
     # MarginL, MarginR, MarginV, Encoding
+    #
+    # hook and stat_hook are this video's Espresso band: BorderStyle 3
+    # (opaque box) with an Espresso BackColour + Paper PrimaryColour, in the
+    # band font. This is the system's one "loud" moment per the 80/20 rule
+    # (references/design-tokens.md) — background-independent by design, so
+    # it pops the same way against any footage, dark or light.
     return "\n".join([
         "[V4+ Styles]",
         "Format: Name, Fontname, Fontsize, PrimaryColour, SecondaryColour, OutlineColour, BackColour, Bold, Italic, Underline, StrikeOut, ScaleX, ScaleY, Spacing, Angle, BorderStyle, Outline, Shadow, Alignment, MarginL, MarginR, MarginV, Encoding",
-        f"Style: kicker_dark,{sans},34,{TAUPE},{TAUPE},&H00000000,&H00000000,1,0,0,0,100,100,4,0,1,0,0,7,72,72,120,1",
-        f"Style: kicker_light,{sans},34,{WINE},{WINE},&H00000000,&H00000000,1,0,0,0,100,100,4,0,1,0,0,7,72,72,120,1",
-        f"Style: statement_dark,{serif},62,{CREAM},{CREAM},&H00000000,&H00000000,0,0,0,0,100,100,0,0,1,0,0,2,80,80,300,1",
-        f"Style: statement_light,{serif},62,{ESPRESSO},{ESPRESSO},&H00000000,&H00000000,0,0,0,0,100,100,0,0,1,0,0,2,80,80,300,1",
-        f"Style: hook,{serif},64,{WINE},{WINE},&H00000000,&H00000000,1,1,0,0,100,100,0,0,1,0,0,2,90,90,320,1",
-        f"Style: stat_dark,{serif},150,{CREAM},{CREAM},&H00000000,&H00000000,0,0,0,0,100,100,0,0,1,0,0,5,80,80,900,1",
-        f"Style: stat_light,{serif},150,{ESPRESSO},{ESPRESSO},&H00000000,&H00000000,0,0,0,0,100,100,0,0,1,0,0,5,80,80,900,1",
-        f"Style: stat_hook,{serif},150,{WINE},{WINE},&H00000000,&H00000000,0,0,0,0,100,100,0,0,1,0,0,5,80,80,900,1",
+        f"Style: kicker_dark,{sans},34,{SAND},{SAND},&H00000000,&H00000000,1,0,0,0,100,100,4,0,1,0,0,7,72,72,120,1",
+        f"Style: kicker_light,{sans},34,{GREY},{GREY},&H00000000,&H00000000,1,0,0,0,100,100,4,0,1,0,0,7,72,72,120,1",
+        f"Style: statement_dark,{sans},62,{PAPER},{PAPER},&H00000000,&H00000000,0,0,0,0,100,100,0,0,1,0,0,2,80,80,300,1",
+        f"Style: statement_light,{sans},62,{ESPRESSO},{ESPRESSO},&H00000000,&H00000000,0,0,0,0,100,100,0,0,1,0,0,2,80,80,300,1",
+        f"Style: hook,{band},68,{PAPER},{PAPER},&H00000000,{ESPRESSO},1,0,0,0,100,100,0,0,3,14,0,2,90,90,320,1",
+        f"Style: stat_dark,{sans},150,{PAPER},{PAPER},&H00000000,&H00000000,1,0,0,0,100,100,0,0,1,0,0,5,80,80,900,1",
+        f"Style: stat_light,{sans},150,{ESPRESSO},{ESPRESSO},&H00000000,&H00000000,1,0,0,0,100,100,0,0,1,0,0,5,80,80,900,1",
+        f"Style: stat_hook,{band},150,{PAPER},{PAPER},&H00000000,{ESPRESSO},1,0,0,0,100,100,0,0,3,18,0,5,80,80,900,1",
     ])
 
 
@@ -128,6 +147,14 @@ def style_for(beat: dict) -> str:
     raise ValueError(f"Unknown mode: {mode}")
 
 
+def display_text(beat: dict, text: str) -> str:
+    """Kicker labels render as bracketed micro-labels (the locked structural
+    device — see design-tokens.md), e.g. "quick context" -> "[ QUICK CONTEXT ]"."""
+    if beat["mode"] == "kicker":
+        return f"[ {text.upper()} ]"
+    return text
+
+
 def build_events(beats: list[dict]) -> str:
     lines = [
         "[Events]",
@@ -151,12 +178,12 @@ def build_events(beats: list[dict]) -> str:
                     c_end = c_start + slice_dur
                 lines.append(
                     f"Dialogue: 0,{fmt_time(c_start)},{fmt_time(c_end)},{style},,0,0,0,,"
-                    f"{{\\fad(120,120)}}{chunk}"
+                    f"{{\\fad(120,120)}}{display_text(beat, chunk)}"
                 )
         else:
             lines.append(
                 f"Dialogue: 0,{fmt_time(start)},{fmt_time(end)},{style},,0,0,0,,"
-                f"{{\\fad(120,120)}}{text}"
+                f"{{\\fad(120,120)}}{display_text(beat, text)}"
             )
     return "\n".join(lines)
 
@@ -172,7 +199,7 @@ def main():
     with open(args.beats_json) as f:
         beats = json.load(f)
 
-    serif, sans = pick_fonts(args.fonts_dir)
+    sans, band = pick_fonts(args.fonts_dir)
 
     header = "\n".join([
         "[Script Info]",
@@ -182,7 +209,7 @@ def main():
         "ScaledBorderAndShadow: yes",
         "",
     ])
-    styles = build_styles(serif, sans)
+    styles = build_styles(sans, band)
     events = build_events(beats)
 
     with open(args.output_ass, "w") as f:

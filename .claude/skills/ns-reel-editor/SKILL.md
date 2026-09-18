@@ -1,6 +1,6 @@
 ---
 name: ns-reel-editor
-description: Edit uploaded Instagram Reels footage for Nous Sense — trimming dead air/weak sections, adding dynamic on-brand animated captions, and inserting big-number and infographic moments (comparison bars, directional arrows). Use this skill whenever the user uploads a video of themselves speaking and wants it turned into a finished reel, wants captions added or the video "trimmed where necessary," wants text that "isn't just plain subtitles," wants numbers/stats visually emphasized, or references Nous Sense's brand colors (wine-red, cream, espresso, taupe) or retention/hook principles in the context of editing a video. This is an EDITING skill for footage that already exists — it does not source B-roll, generate video from scratch, run trend research, or produce thumbnails/music selection.
+description: Edit uploaded Instagram Reels footage for Nous Sense — trimming dead air/weak sections, adding dynamic on-brand animated captions, and inserting big-number and infographic moments (comparison bars, directional arrows). Use this skill whenever the user uploads a video of themselves speaking and wants it turned into a finished reel, wants captions added or the video "trimmed where necessary," wants text that "isn't just plain subtitles," wants numbers/stats visually emphasized, or references Nous Sense's brand colors (Espresso, Paper, Stone, Plaster, Sand, Grey) or retention/hook principles in the context of editing a video. This is an EDITING skill for footage that already exists — it does not source B-roll, generate video from scratch, run trend research, or produce thumbnails/music selection.
 ---
 
 # NS Reel Editor
@@ -120,10 +120,11 @@ published.
 
 ## Fonts
 
-The exact brand serif (Playfair Display) and sans (Inter) aren't bundled —
+The brand system is Inter throughout, with Schibsted Grotesk reserved for
+the one Espresso-band moment (`hook`/`stat_hook`). Neither is bundled —
 drop the real font files into `assets/fonts/` if there's network access to
 fetch them from Google Fonts (see `assets/fonts/README.md` for exact
-filenames). Without them, everything falls back to DejaVu Serif/Sans
+filenames). Without them, everything falls back to DejaVu Sans
 automatically with a printed note — layout and color are still correct,
 just not a pixel-perfect type match until the real fonts are added.
 

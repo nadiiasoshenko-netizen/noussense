@@ -15,10 +15,16 @@ Usage (called by build_reel.py, but runnable standalone for testing):
 import argparse
 from PIL import Image, ImageDraw, ImageFont
 
-WINE = (107, 36, 48, 255)          # #6b2430
-LIGHT_STONE = (217, 208, 194, 255)  # #d9d0c2
-MUTED_GREY = (107, 97, 87, 255)     # #6b6157
-CREAM = (241, 234, 224, 255)         # #f1eae0
+# Locked website visual identity (Nous Sense/13 - NS Website Visual
+# Identity.md), applied brand-wide. Espresso is "the one deliberate dark
+# moment" — used as the emphasis fill on light footage; on dark footage the
+# roles invert (Paper becomes the pop color) so the graphic still reads
+# against arbitrary video backgrounds, which the 80/20 rule (written for a
+# static composition) doesn't itself need to account for.
+ESPRESSO = (32, 24, 16, 255)        # #201810
+PAPER = (245, 240, 230, 255)        # #f5f0e6
+STONE = (233, 220, 191, 255)        # #e9dcbf
+GREY = (138, 127, 107, 255)         # #8a7f6b
 TRANSPARENT = (0, 0, 0, 0)
 
 
@@ -37,8 +43,11 @@ def _font(size, bold=True):
     return ImageFont.load_default()
 
 
-def arrow(direction: str, out_path: str, size=(200, 200), stroke=8):
-    """A single thin wine-red arrow. direction: 'up' or 'down'."""
+def arrow(direction: str, out_path: str, size=(200, 200), stroke=8, on_dark=True):
+    """A single thin arrow — Paper on dark footage, Espresso on light
+    footage, so it always reads as this video's one emphasis moment
+    regardless of what's behind it. direction: 'up' or 'down'."""
+    fill = PAPER if on_dark else ESPRESSO
     w, h = size
     img = Image.new("RGBA", size, TRANSPARENT)
     d = ImageDraw.Draw(img)
@@ -46,12 +55,12 @@ def arrow(direction: str, out_path: str, size=(200, 200), stroke=8):
     top, bottom = int(h * 0.15), int(h * 0.85)
     if direction == "down":
         top, bottom = bottom, top
-    d.line([(cx, bottom), (cx, top)], fill=WINE, width=stroke)
+    d.line([(cx, bottom), (cx, top)], fill=fill, width=stroke)
     head = int(h * 0.22)
     dy = 1 if top < bottom else -1
     d.line(
         [(cx - head, top + head * dy), (cx, top), (cx + head, top + head * dy)],
-        fill=WINE, width=stroke, joint="curve",
+        fill=fill, width=stroke, joint="curve",
     )
     img.save(out_path)
 
@@ -60,18 +69,20 @@ def bar_compare(out_path, small_label="", small_value="", large_label="",
                  large_value="", bar_width=620, value_margin=140,
                  small_frac=0.12, on_dark=True):
     """
-    Two horizontal bars: a short light-stone bar and a long wine-red bar,
-    matching the carousel comparison-chart language. small_frac controls how
-    short the small bar renders relative to the large one (visual emphasis,
-    not literal proportion — see design-tokens.md on why literal proportion
-    often isn't legible for extreme ratios).
+    Two horizontal bars: a short Stone bar and a long emphasis-color bar
+    (Paper on dark footage, Espresso on light footage — this video's one
+    loud moment), matching the carousel comparison-chart language.
+    small_frac controls how short the small bar renders relative to the
+    large one (visual emphasis, not literal proportion — see
+    design-tokens.md on why literal proportion often isn't legible for
+    extreme ratios).
 
     bar_width is the drawable bar length; value_margin is extra canvas width
     reserved to the right of the bars for the value labels — the canvas is
     bar_width + value_margin wide, so labels never get clipped off the edge.
 
     on_dark: whether this overlay sits on dark video footage (the common
-    case for reels) or light footage. This controls label/value text color —
+    case for reels) or light footage. This controls label/value/bar color —
     getting it wrong means text can vanish against the background, so don't
     hardcode a single color here.
     """
@@ -84,34 +95,37 @@ def bar_compare(out_path, small_label="", small_value="", large_label="",
     d = ImageDraw.Draw(img)
     f_label = _font(22)
     f_value = _font(22)
-    label_color = CREAM if on_dark else MUTED_GREY
-    value_color = CREAM if on_dark else (28, 19, 14, 255)
+    emphasis = PAPER if on_dark else ESPRESSO
+    label_color = PAPER if on_dark else GREY
+    value_color = PAPER if on_dark else ESPRESSO
 
     y = 0
     d.text((0, y), small_label, font=f_label, fill=label_color)
     y += label_h
     small_w = max(30, int(bar_width * small_frac))
-    d.rectangle([0, y, small_w, y + bar_h], fill=LIGHT_STONE)
+    d.rectangle([0, y, small_w, y + bar_h], fill=STONE)
     d.text((small_w + 16, y + 6), str(small_value), font=f_value, fill=value_color)
     y += bar_h + gap
 
     d.text((0, y), large_label, font=f_label, fill=label_color)
     y += label_h
-    d.rectangle([0, y, bar_width, y + bar_h], fill=WINE)
+    d.rectangle([0, y, bar_width, y + bar_h], fill=emphasis)
     d.text((bar_width + 16, y + 6), str(large_value), font=f_value, fill=value_color)
 
     img.save(out_path)
 
 
-def bubble_stat(out_path, diameter=260, stroke=4):
-    """A thin wine-red circular outline to ring the 'remember this number' stat.
-    Draws only the ring — composite the actual number as a separate ASS caption
-    centered on top of it."""
+def bubble_stat(out_path, diameter=260, stroke=4, on_dark=True):
+    """A thin circular outline ringing the 'remember this number' stat —
+    Paper on dark footage, Espresso on light footage. Draws only the ring —
+    composite the actual number as a separate ASS caption centered on top of
+    it."""
+    fill = PAPER if on_dark else ESPRESSO
     pad = stroke * 2
     size = diameter + pad * 2
     img = Image.new("RGBA", (size, size), TRANSPARENT)
     d = ImageDraw.Draw(img)
-    d.ellipse([pad, pad, pad + diameter, pad + diameter], outline=WINE, width=stroke)
+    d.ellipse([pad, pad, pad + diameter, pad + diameter], outline=fill, width=stroke)
     img.save(out_path)
 
 
@@ -129,12 +143,12 @@ if __name__ == "__main__":
     args = p.parse_args()
 
     if args.kind == "arrow_up":
-        arrow("up", args.out_path)
+        arrow("up", args.out_path, on_dark=args.on_dark)
     elif args.kind == "arrow_down":
-        arrow("down", args.out_path)
+        arrow("down", args.out_path, on_dark=args.on_dark)
     elif args.kind == "bar_compare":
         bar_compare(args.out_path, args.small_label, args.small_value,
                     args.large_label, args.large_value, on_dark=args.on_dark)
     elif args.kind == "bubble_stat":
-        bubble_stat(args.out_path, args.diameter)
+        bubble_stat(args.out_path, args.diameter, on_dark=args.on_dark)
     print(f"Wrote {args.out_path}")

@@ -1,14 +1,15 @@
 Drop the following font files here for an exact brand-typography match:
 
-- PlayfairDisplay-Regular.ttf
-- PlayfairDisplay-Medium.ttf
-- PlayfairDisplay-BoldItalic.ttf
-- Inter-Bold.ttf
+- Inter-Regular.ttf
+- Inter-Medium.ttf
 - Inter-SemiBold.ttf
+- Inter-Bold.ttf
+- SchibstedGrotesk-Bold.ttf (optional — used only for the `hook`/`stat_hook`
+  Espresso-band moment; falls back to Inter Bold if absent)
 
-Get them from https://fonts.google.com/specimen/Playfair+Display and
-https://fonts.google.com/specimen/Inter (requires network access).
+Get them from https://fonts.google.com/specimen/Inter and
+https://fonts.google.com/specimen/Schibsted+Grotesk (requires network access).
 
-Without these, the skill automatically falls back to DejaVu Serif / DejaVu
-Sans — everything still works, it's just not a pixel-perfect type match.
-See references/design-tokens.md for details.
+Without these, the skill automatically falls back to DejaVu Sans for
+everything — layout and color are still correct, just not a pixel-perfect
+type match. See references/design-tokens.md for details.

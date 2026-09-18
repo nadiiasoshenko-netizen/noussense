@@ -92,7 +92,7 @@ two that matter and let the rest stay as normal statement captions.
 |---|---|---|
 | A section transition or aside ("quick context," "here's the turn") | `kicker` | Signals structure without competing for attention |
 | Regular explanation, the connective tissue | `statement` | The default — most of the video lives here |
-| The line designed to be quoted or remembered | `hook` | Gets the accent color and extra hold time — should happen once or twice per video, not every sentence |
+| The line designed to be quoted or remembered | `hook` | Gets the Espresso-band treatment and extra hold time — should happen once or twice per video, not every sentence |
 | A number worth seeing, not just hearing | `stat` | Gets the giant-number treatment, sometimes paired with a graphic |
 
 Never let a whole video sit in one mode. If you notice five statement beats

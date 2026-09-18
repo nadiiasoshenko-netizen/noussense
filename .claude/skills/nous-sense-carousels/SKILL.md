@@ -1,6 +1,6 @@
 ---
 name: nous-sense-carousels
-description: Design and build Instagram carousel slides for Nous Sense using its editorial studio design system (espresso ink, cream, one wine-red accent, Playfair Display + Inter type). Use this skill whenever the user asks to create, design, draft, or export Instagram carousel slides, posts, story graphics, or any social content for "Nous Sense," or mentions carousel slides / IG posts alongside this brand's look. Also use it if the user asks to reuse "the design system," "the moodboard style," or "the brand colors" for social content, even without naming the project. Covers slide layout conventions, on-brand components, growth-format slide templates (result/list/tool-drop), and the HTML → PNG export workflow.
+description: Design and build Instagram carousel slides for Nous Sense using its locked visual identity (White/Paper/Stone/Plaster/Sand/Grey/Espresso, Inter throughout, the 80/20 Espresso-moment rule). Use this skill whenever the user asks to create, design, draft, or export Instagram carousel slides, posts, story graphics, or any social content for "Nous Sense," or mentions carousel slides / IG posts alongside this brand's look. Also use it if the user asks to reuse "the design system," "the moodboard style," or "the brand colors" for social content, even without naming the project. Covers slide layout conventions, on-brand components, growth-format slide templates (result/list/tool-drop), and the HTML → PNG export workflow.
 ---
 
 # Nous Sense — Instagram Carousel Skill
@@ -17,25 +17,31 @@ writing.
 
 ## 1. Design tokens (quick reference)
 
+This is the locked Nous Sense visual identity (`Nous Sense/13 - NS Website
+Visual Identity.md`), applied brand-wide — the same system as the website
+and Reels, not a separate carousel-only palette.
+
 ```css
---ink:        #1C130E;  /* primary dark bg, body text on light */
---black:      #C9B48C;  /* warm beige — the ONE lighter card per grid */
---cream:      #F1EAE0;  /* primary light bg */
---paper:      #FBF8F3;  /* lightest neutral, card surfaces */
---wine:       #6B2430;  /* primary accent — one moment per carousel */
---wine-deep:  #4E1A22;  /* wine hover/pressed, deep fills */
---dust-blue:  #ACB9C6;  /* secondary accent, used sparingly */
---sand:       #C7B8A3;  /* photography backdrops, muted fills */
---line:       #D9D0C2;  /* hairlines only */
+--white:     #FFFFFF;  /* page ground itself */
+--paper:     #F5F0E6;  /* card / section surface, sits on white */
+--stone:     #E9DCBF;  /* secondary card / section surface */
+--plaster:   #D2C0A3;  /* the ONE accent panel per composition (primary) */
+--sand:      #C9B79C;  /* swappable alternate for the accent panel */
+--grey:      #8A7F6B;  /* muted / secondary text */
+--espresso:  #201810;  /* the ONE deliberate dark moment per composition */
 ```
 
-- **Fonts:** Playfair Display (headlines, 500 weight, italic for the script
-  accent) · Inter (body/labels, 400–600) · Caveat (handwritten asides only —
-  use rarely, one line per carousel at most).
-- **Color rule:** every slide set should read as ink/cream first. Use wine on
-  exactly one slide type per carousel (usually the cover or the CTA — never
-  both unless it's a 3+ slide set). Dust-blue and the beige `--black` card are
-  optional seasoning, not defaults — don't force them into every carousel.
+- **Fonts:** Inter does everything — headlines, body, labels, and the
+  wordmark itself (700 weight, ~0.32em letter-spacing, uppercase, for the
+  quiet "NOUS SENSE" wordmark device). Schibsted Grotesk is held in reserve
+  for exactly one job: whatever copy sits inside the Espresso band (see
+  below) — not used anywhere else. No serif, no handwritten face.
+- **The 80/20 rule:** every slide should read as roughly 80% light
+  (White/Paper/Stone/Plaster/Sand) to 20% Espresso, used once, deliberately
+  — usually the cover or the CTA (never both unless it's a 3+ slide set).
+  This is the system's one "loud" moment; it's color, not typography.
+  Plaster and Sand are optional seasoning (an accent panel, a card surface),
+  not defaults — don't force them into every carousel.
 
 ## 2. Carousel specs
 
@@ -63,9 +69,9 @@ writing.
   headlines, 22–26px for body copy, 13–15px uppercase/tracked for labels and
   the brand mark.
 - **Brand mark:** small, consistent, same position every slide (bottom-center
-  or bottom-left, per the moodboard reference) — either "NOUS SENSE" in
-  the label style, or the wax-seal mark component. Pick one and repeat it
-  across the whole set; never mix.
+  or bottom-left, per the moodboard reference) — either the quiet "NOUS SENSE"
+  wordmark (Inter 700, ~0.32em tracking, uppercase), or the Sealed Ring mark
+  component. Pick one and repeat it across the whole set; never mix.
 
 ## 3. Standard slide types
 
@@ -76,16 +82,17 @@ higher-saving structures.)
 
 | Slide role | Background | Layout |
 |---|---|---|
-| **Cover / hook** | `--ink` or `--wine` | Large serif statement, centered or lower-third, brand mark small at the base. This is the one slide that's allowed to be the boldest color in the set. |
-| **Statement** | `--cream` or `--paper` | One big serif headline, nothing else competing. Headline *is* the content — resist adding a paragraph under it. |
-| **List / point** | `--paper` | Small uppercase label (eyebrow) at top, short serif sub-headline, 2–4 short body lines below. Numbers or short bullets, not paragraphs. |
-| **Quote / testimonial** | `--sand` or `--dust-blue` | Pinned-note or sticky-note component (see design-system.md §5) holding one italic line, 15–20 words max. |
-| **Data / stat / receipt** | `--cream` | One large number or stat set in Playfair Display, one short line of context beneath in Inter. For a claimed result (money, time, count), style it as the "receipt" component (§5) so the number reads as substantiated, not asserted. |
-| **CTA / close** | `--wine` or `--ink` | Short directive line ("Save this for later.", "Follow for more."), brand mark, optional handle/URL in caption size. On growth carousels, this slide must **bookend** slide 1 — see §7. |
+| **Cover / hook** | `--espresso` (this slide is the composition's 20%) | Large Inter 700 statement — or the quiet wordmark sized up — centered or lower-third, brand mark small at the base. This is the one slide that's allowed to be the loud moment in the set. |
+| **Statement** | `--white` or `--paper` | One big headline in Inter, nothing else competing. Headline *is* the content — resist adding a paragraph under it. |
+| **List / point** | `--paper` | Small bracketed micro-label (`[ Eyebrow ]`) at top, short Inter sub-headline, 2–4 short body lines below. Numbers or short bullets, not paragraphs. |
+| **Quote / testimonial** | `--stone` or `--plaster` | Pinned-note component (see §5) holding one italic-set line, 15–20 words max. |
+| **Data / stat / receipt** | `--paper` | One large number set in Inter, one short line of context beneath. For a claimed result (money, time, count), style it as the "receipt" component (§5) so the number reads as substantiated, not asserted. |
+| **CTA / close** | `--espresso` | Short directive line ("Save this for later.", "Follow for more."), brand mark, optional handle/URL in caption size — set in Schibsted Grotesk, the one place that face appears. On growth carousels, this slide must **bookend** slide 1 — see §7. |
 
-Alternate light and dark slides through the set (cream → cream → dark accent →
-cream → dark accent) rather than clustering all the dark slides together —
-that's the rhythm the source moodboards use.
+Alternate light and dark slides through the set (paper → paper → the one
+Espresso moment → paper → paper) rather than clustering dark slides together
+or repeating the loud moment more than once per composition — the 80/20 rule
+holds across the whole set, not just per slide.
 
 ## 4. Build workflow (HTML → PNG)
 
@@ -119,14 +126,15 @@ that's the rhythm the source moodboards use.
 Pull these directly from the existing design system (full CSS in
 `references/design-system.md` §5) rather than redesigning them per carousel:
 
-- Pinned quote card (photo + clipped note, wine or dust-blue paper)
-- Sticky note (Caveat handwriting, slight rotation)
+- Pinned quote card (photo + clipped note, on Stone or Plaster paper)
 - Polaroid stack (two overlapping white-bordered tiles)
-- Eyebrow / tag label (uppercase, wide tracking)
-- Wax seal mark (circular, wine, serif initial)
+- Bracketed micro-label (`[ Eyebrow ]` — square-bracket tracked caps,
+  replaces plain eyebrow labels)
+- Sealed Ring mark (double concentric ring, seven dots around the inner rim
+  — one per Commercial Sense — serif "N" centered, drawn in Espresso)
 - **Receipt** (screenshot/number-hero styling): a bordered "document" card —
   paper background, thin hairline rule, a monospace or tabular-figure number
-  set large in Playfair Display, one small caption line beneath it (source or
+  set large in Inter, one small caption line beneath it (source or
   timeframe, e.g. "across 6 weeks"). Use it any time a slide asserts a
   specific number — money saved, hours saved, output count — so the claim
   reads as evidenced rather than just stated. This is required for the
@@ -160,11 +168,12 @@ Shared rules across all three formats:
   body slides ≤15–20 words; list-item slides ≤5 words per headline. If a
   draft runs over, cut copy — don't shrink the type to fit it.
 - **Bookend the CTA to the hook.** The CTA slide must reuse the exact same
-  background/accent color and type treatment as slide 1 (e.g. both `--wine`
-  with the same headline weight), so the set opens and closes as one visual
-  statement rather than shifting into a jarring "ad" slide at the end. Pull
-  both from the same token pair automatically — never let CTA styling drift
-  from the espresso/cream/wine system.
+  background and type treatment as slide 1 (e.g. both `--espresso` with the
+  same headline weight), so the set opens and closes as one visual statement
+  rather than shifting into a jarring "ad" slide at the end. Pull both from
+  the same token pair automatically — never let CTA styling drift from the
+  locked system, and never spend the composition's one Espresso moment
+  twice on different slides within the same carousel.
 - **Single-keyword CTA + DM automation.** One comment keyword, not a
   multi-ask CTA ("comment X" beats "comment X, follow, and share"). Note in
   the caption/copy handoff that the keyword is wired to DM automation.
@@ -186,7 +195,7 @@ Shared rules across all three formats:
 8 slides, +1–2 optional.
 
 1. **Hook** — Cold open on the *result*, not the tool/method. Bold headline,
-   high color contrast (`--ink` or `--wine`). ≤12 words.
+   high color contrast (`--espresso`). ≤12 words.
    e.g. "She cancelled her $500/month contractor."
 2. **The win** — Literal split-screen layout: before | after, one line of
    copy on each side, plus a caption strip stating who + how fast. Build this
